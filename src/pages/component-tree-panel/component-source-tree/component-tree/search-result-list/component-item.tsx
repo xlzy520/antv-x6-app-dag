@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import classname from 'classnames'
 import { Popover, Tag, Tooltip } from 'antd'
 import { DatabaseFilled, ProfileTwoTone } from '@ant-design/icons'
-import marked from 'marked'
+// import marked from 'marked'
 import { ConnectDragPreview, ConnectDragSource, DragSource } from 'react-dnd'
 import { ItemName } from '@/component/item-name'
 import { unescape } from '@/common/utils'
@@ -10,10 +10,10 @@ import { useSafeSetHTML } from '@/pages/common/hooks/useSafeSetHtml'
 import { DRAGGABLE_ALGO_COMPONENT } from '@/constants/graph'
 import styles from './component-item.less'
 
-marked.setOptions({
-  gfm: true,
-  breaks: true,
-})
+// marked.setOptions({
+//   gfm: true,
+//   breaks: true,
+// })
 
 const Markdown2html: React.FC<{ description: string; tag: string }> = (
   props,
@@ -21,10 +21,10 @@ const Markdown2html: React.FC<{ description: string; tag: string }> = (
   const { description, tag } = props
   const descriptionElementRef = useRef<HTMLDivElement>(null)
 
-  useSafeSetHTML(
-    descriptionElementRef,
-    marked(unescape(description).replace(/\\n/gi, ' \n ')),
-  )
+  // useSafeSetHTML(
+  //   descriptionElementRef,
+  //   marked(unescape(description).replace(/\\n/gi, ' \n ')),
+  // )
 
   return (
     <div className={styles.componentDescription}>

@@ -3,25 +3,26 @@ import { toLower, unescape } from 'lodash-es'
 import { Popover, Tag } from 'antd'
 import { DragSource, ConnectDragPreview, ConnectDragSource } from 'react-dnd'
 import { DatabaseFilled, ReadOutlined } from '@ant-design/icons'
-import marked from 'marked'
+import dia from './dia.png'
+// import marked from 'marked'
 import { useSafeSetHTML } from '@/pages/common/hooks/useSafeSetHtml'
 import { DRAGGABLE_ALGO_COMPONENT } from '@/constants/graph'
 import styles from './node-title.less'
 
-marked.setOptions({
-  gfm: true,
-  breaks: true,
-})
+// marked.setOptions({
+//   gfm: true,
+//   breaks: true,
+// })
 
 const Document = (props: { node: any }) => {
   const { node } = props
   const descriptionNodeRef = useRef<HTMLDivElement>(null)
   const { description, id, tag = '' } = node
 
-  const htmlStr = marked(
-    unescape(description || '暂无文档').replace(/\\n/gi, ' \n '),
-  )
-  useSafeSetHTML(descriptionNodeRef, htmlStr)
+  // const htmlStr = marked(
+  //   unescape(description || '暂无文档').replace(/\\n/gi, ' \n '),
+  // )
+  // useSafeSetHTML(descriptionNodeRef, htmlStr)
 
   return (
     <div className={styles.popover}>
@@ -92,6 +93,42 @@ const InnerNodeTitle = (props: Props) => {
           </span>
         </span>,
       ),
+    )
+  }
+
+  console.log(node)
+
+
+  if (node.name === '菱形') {
+    return (
+      <div
+        className={styles.diamondNodeTitleWrapper}
+        onMouseEnter={onMouseIn}
+        onMouseLeave={onMouseOut}
+      >
+        {connectDragPreview(
+          connectDragSource(
+            <div className={styles.node}>
+              {/*<DatabaseFilled className={styles.nodeIcon} />*/}
+              <img src={dia}/>
+              <span className={styles.label}>{name}</span>
+            </div>,
+          ),
+        )}
+        {visible && (
+          <Popover
+            visible={true}
+            title={name}
+            placement="right"
+            content={<Document node={node} />}
+            key="description"
+          >
+            <a className={styles.doc}>
+              <ReadOutlined /> 文档
+            </a>
+          </Popover>
+        )}
+      </div>
     )
   }
 

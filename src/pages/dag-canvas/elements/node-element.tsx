@@ -1,7 +1,7 @@
 import React from 'react'
 import { Node } from '@antv/x6'
 import classNames from 'classnames'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, Popover } from 'antd'
 import { filter, map } from 'rxjs/operators'
 import { DatabaseFilled } from '@ant-design/icons'
 import { useObservableState } from '@/common/hooks/useObservableState'
@@ -31,39 +31,52 @@ export const NodeElement: React.FC<Props> = (props) => {
   const data: any = node?.getData() || {}
   const { name, id, selected } = data
   const nodeStatus = instanceStatus[id] || {}
+  console.log(node, data)
+  const content = (
+    <div>
+      {data.gender}
+    </div>
+  );
 
   return (
-    <ConfigProvider prefixCls={ANT_PREFIX}>
-      <NodePopover status={nodeStatus}>
-        <div
-          className={classNames(styles.nodeElement, {
-            [styles.selected]: !!selected,
-          })}
-        >
-          <div className={styles.icon}>
-            <DatabaseFilled style={{ color: '#1890ff' }} />
-          </div>
-          <div className={styles.notation}>
-            <div className={styles.name}>{name}</div>
-            {nodeStatus.jobStatus && (
-              <NodeStatus
-                className={styles.statusIcon}
-                status={nodeStatus.jobStatus as any}
-              />
-            )}
-          </div>
+    <Popover content={content} title="Title">
+
+      <div
+        className={classNames(styles.nodeElement, {
+          [styles.selected]: !!selected,
+        })}
+      >
+        <div className={styles.icon}>
+          <DatabaseFilled style={{ color: '#1890ff' }} />
         </div>
-      </NodePopover>
-    </ConfigProvider>
+        <div className={styles.notation}>
+          <div className={styles.name}>{name}</div>
+          {nodeStatus.jobStatus && (
+            <NodeStatus
+              className={styles.statusIcon}
+              status={nodeStatus.jobStatus as any}
+            />
+          )}
+        </div>
+      </div>
+    </Popover>
   )
 }
 
 export const DiamondNodeElement: React.FC<Props> = (props) => {
   const { node } = props
   const data: any = node?.getData() || {}
-  const { name,} = data
+  const { name, gender } = data
+
+  const content = (
+    <div>
+      {gender}
+    </div>
+  );
 
   return (
-    <div className="diamond-node">{name}</div>
+    <Popover content={content} title="Title">
+      <div className="diamond-node">{name}</div>
+    </Popover>
   )
 }

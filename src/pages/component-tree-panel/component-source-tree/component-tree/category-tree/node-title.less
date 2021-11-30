@@ -15,8 +15,8 @@
       .nodeIcon {
         display: flex;
         justify-content: center;
-        width: 32px;
-        min-width: 32px;
+        width: 50px;
+        min-width: 50px;
         margin-right: 0;
         color: #1890ff;
         background-color: rgba(229, 238, 255, 0.85);
@@ -136,5 +136,81 @@
   margin: 4px 0;
   .label {
     padding-right: 4px;
+  }
+}
+
+
+.diamondNodeTitleWrapper[draggable=true]{
+  color: red;
+}
+
+.diamondNodeTitleWrapper {
+  &:hover {
+    display: block;
+    .node {
+      //width: 30px;
+      //width: 180px;
+      margin-left: 20px;
+      padding-left: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: transparent;
+      border-radius: 4px;
+      //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+      //width: 15px;
+      //height: 15px;
+      //background: #2ecc71;
+      //transform: rotate(45deg);
+      //transform-origin: center;
+      //margin-top: 15px;
+
+      .nodeIcon {
+        display: flex;
+        justify-content: center;
+        width: 50px;
+        min-width: 50px;
+        margin-right: 0;
+        color: #1890ff;
+        background-color: rgba(229, 238, 255, 0.85);
+        cursor: move;
+        display: none;
+      }
+
+      .label {
+        //padding-left: 8px;
+        overflow: hidden;
+        //background-color: #fff;
+        cursor: move;
+      }
+    }
+    .node[draggable=true]{
+      color: red;
+    }
+  }
+
+  .node {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 20px;
+    font-size: 12px;
+    line-height: 50px;
+
+    .nodeIcon {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 4px;
+      color: #bfbfbf;
+    }
+
+    .label {
+      display: inline-block;
+      width: 200px;
+      overflow: hidden;
+      white-space: nowrap;
+      color: #fff;
+      text-overflow: ellipsis;
+      margin-left: -39px;
+    }
   }
 }

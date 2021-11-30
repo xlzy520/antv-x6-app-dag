@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, Select } from 'antd'
 import { useObservableState } from '@/common/hooks/useObservableState'
 import { useExperimentGraph } from '@/pages/rx-models/experiment-graph'
 import 'antd/lib/style/index.css'
@@ -16,14 +16,13 @@ export const NodeFormDemo: React.FC<Props> = ({
   experimentId,
 }) => {
   const [form] = Form.useForm()
-
+  const { Option } = Select;
   const expGraph = useExperimentGraph(experimentId)
   const [node] = useObservableState(() => expGraph.activeNodeInstance$)
 
-  const onValuesChange = async ({ name }: { name: string }) => {
-    if (node.name !== name) {
-      await expGraph.renameNode(nodeId, name)
-    }
+  const onValuesChange = async ({ name, gender }: { name: string, gender:string }) => {
+    console.log(node, gender)
+    await expGraph.renameNode(nodeId, name, gender)
   }
 
   return (
@@ -40,11 +39,12 @@ export const NodeFormDemo: React.FC<Props> = ({
       <Form.Item label={name}>
         <Input placeholder="input placeholder" />
       </Form.Item>
-      <Form.Item label="Field C">
-        <Input placeholder="input placeholder" />
-      </Form.Item>
-      <Form.Item label="Field D">
-        <Input placeholder="input placeholder" />
+      <Form.Item name="gender" label="选择项" rules={[{ required: true }]}>
+        <Select
+          placeholder="Select a option and change input text above"
+        >
+          <Option value="modelServiseName">modelServiseName</Option>
+        </Select>
       </Form.Item>
     </Form>
   )

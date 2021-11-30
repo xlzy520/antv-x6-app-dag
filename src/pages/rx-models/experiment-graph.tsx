@@ -767,12 +767,12 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
   }
 
   // 重命名节点
-  renameNode = async (nodeInstanceId: string, newName: string) => {
+  renameNode = async (nodeInstanceId: string, newName: string, gender: string) => {
     const renameRes = await { success: true }
     if (renameRes.success) {
       const cell = this.getCellById(nodeInstanceId)
       const data: object = cell!.getData()
-      const newData = { ...data, name: newName }
+      const newData = { ...data, name: newName, gender }
       cell!.setData(newData)
       this.updateExperimentGraph([newData as any])
     }
