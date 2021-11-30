@@ -18,9 +18,6 @@ interface Props {
 }
 
 export const NodeElement: React.FC<Props> = (props) => {
-  return (
-    <div>123</div>
-  )
   const { experimentId, node } = props
   const experimentGraph = useExperimentGraph(experimentId)
   const [instanceStatus] = useObservableState(
@@ -58,5 +55,15 @@ export const NodeElement: React.FC<Props> = (props) => {
         </div>
       </NodePopover>
     </ConfigProvider>
+  )
+}
+
+export const DiamondNodeElement: React.FC<Props> = (props) => {
+  const { node } = props
+  const data: any = node?.getData() || {}
+  const { name,} = data
+
+  return (
+    <div className="diamond-node">{name}</div>
   )
 }

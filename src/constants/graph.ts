@@ -3,6 +3,10 @@ export const GROUP_VERTICAL__PADDING = 40 // 分组纵向 padding
 export const NODE_WIDTH = 180
 export const NODE_HEIGHT = 32
 
+// 菱形
+export const DIAMOND_WIDTH = 80
+export const DIAMOND_HEIGHT = 80
+
 // 触发画布重新渲染事件
 export const RERENDER_EVENT = 'RERENDER_EVENT'
 

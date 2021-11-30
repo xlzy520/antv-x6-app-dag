@@ -4,7 +4,7 @@ import {
   GROUP_HORIZONTAL__PADDING,
   GROUP_VERTICAL__PADDING,
   NODE_WIDTH,
-  NODE_HEIGHT,
+  NODE_HEIGHT, DIAMOND_WIDTH, DIAMOND_HEIGHT,
 } from '@/constants/graph'
 import { NExperimentGraph } from '@/pages/rx-models/typing'
 import { BaseNode } from '../common/graph-common/shape/node'
@@ -60,6 +60,7 @@ export function formatNodeInfoToNodeMeta(
   nodeData: NExperimentGraph.Node,
   inputPortConnectedMap: { [k: string]: boolean } = {},
 ) {
+  console.log(nodeData, '===========打印的 ------ formatNodeInfoToNodeMeta')
   const portItems: any[] = []
   const { id, nodeInstanceId, positionX, positionY, inPorts, outPorts } =
     nodeData
@@ -81,17 +82,28 @@ export function formatNodeInfoToNodeMeta(
   })
   const x = positionX || 0
   const y = positionY || 0
+  let type, width, height
+  if (nodeData.name === '菱形') {
+    type = 'diamond'
+    width = DIAMOND_WIDTH
+    height = DIAMOND_HEIGHT
+  } else {
+    type = 'node'
+    width = NODE_WIDTH
+    height = NODE_HEIGHT
+  }
+  console.log(portItems)
   return {
     ...nodeData,
     x,
     y,
-    type: 'node',
+    type,
     id: (nodeInstanceId || id)!.toString(),
-    width: NODE_WIDTH,
-    height: NODE_HEIGHT,
+    width,
+    height,
     data: {
       ...nodeData,
-      type: 'node',
+      type,
       x,
       y,
       id: (nodeInstanceId || id)!.toString(),
@@ -118,6 +130,8 @@ export function calcNodeScale(
   const defaultY = minY - GROUP_VERTICAL__PADDING
   const defaultWidth = maxX - minX + 2 * GROUP_HORIZONTAL__PADDING + NODE_WIDTH
 
+
+  console.log(groupData)
   if (isCollapsed) {
     return {
       x: defaultX + defaultWidth / 2 - NODE_WIDTH / 2,

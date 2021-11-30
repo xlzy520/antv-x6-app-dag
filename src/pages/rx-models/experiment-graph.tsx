@@ -21,7 +21,7 @@ import {
   GuideEdge,
   X6DemoGroupEdge,
 } from '../common/graph-common/shape/edge'
-import { NodeElement } from '../dag-canvas/elements/node-element'
+import { DiamondNodeElement, NodeElement } from '../dag-canvas/elements/node-element'
 import { NodeGroup } from '../dag-canvas/elements/node-group'
 import { NExecutionStatus, NExperiment, NExperimentGraph } from './typing'
 import {
@@ -151,12 +151,26 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
           return magnet.getAttribute('port-group') !== 'in'
         },
         // 显示可用的链接桩
-        validateConnection({
-          sourceView,
-          targetView,
-          sourceMagnet,
-          targetMagnet,
-        }) {
+        validateConnection:({
+                             sourceView,
+                             targetView,
+                             sourceMagnet,
+                             targetMagnet,
+                             sourceCell,
+                             targetCell,
+                           })=> {
+
+
+          const oldGraph = this.experimentGraph$.getValue()
+          const links = oldGraph.links
+          const hasConnected = links.find(link=> {
+            return link.source === sourceCell?.id && link.target === targetCell?.id
+          })
+
+          if (hasConnected) {
+            return false
+          }
+
           // 不允许连接到自己
           if (sourceView === targetView) {
             return false
@@ -397,13 +411,24 @@ class ExperimentGraph extends GraphCore<BaseNode, BaseEdge> {
     const { type, includedNodes = [] } = data as any
     if (type === 'node') {
       const node = this.graph!.addNode(
+        new X6DemoNode({
+          ...nodeMeta,
+          shape: 'ais-rect-port',
+          component: <NodeElement experimentId={experimentId} />,
+        }),
+      ) as BaseNode
+      if ((nodeMeta.data as any).hide) {
+        this.pendingNodes.push(node)
+      }
+      return node
+    }
+    if (type === 'diamond') {
+      const node = this.graph!.addNode(
         new X6DemoNode1({
-        // new X6DemoNode({
           ...nodeMeta,
           shape: 'custom-polygon',
           primer: 'polygon',
-          // shape: 'ais-rect-port',
-          component: <NodeElement experimentId={experimentId} />,
+          component: <DiamondNodeElement experimentId={experimentId} />,
         }),
       ) as BaseNode
       if ((nodeMeta.data as any).hide) {
